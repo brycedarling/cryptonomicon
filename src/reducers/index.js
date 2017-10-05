@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import ticks, { actions } from './ticksReducer';
-export { actions } from './ticksReducer';
+import ticks from './ticks';
+export { actions } from './ticks';
 
 export default combineReducers({
   ticks,
