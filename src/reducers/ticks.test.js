@@ -1,4 +1,4 @@
-import ticksReducer from './ticksReducer';
+import ticksReducer from './ticks';
 
 jest.mock('poloniex-js');
 
@@ -12,8 +12,6 @@ describe('ticks', () => {
           error: null,
         },
       };
-
-      const ticksReducer = require('./ticksReducer').default;
 
       const actual = ticksReducer(undefined, { type: 'UNDEFINED' });
 
@@ -31,7 +29,7 @@ describe('ticks', () => {
     });
 
     describe('load ticks', () => {
-      const loadTicks = options => require('./ticksReducer').actions.loadTicks(options);
+      const loadTicks = options => require('./ticks').actions.loadTicks(options);
 
       describe('when successful', () => {
         const options = {
