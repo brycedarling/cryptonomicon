@@ -1,0 +1,16 @@
+svg {
+  font: 12px sans-serif;
+}
+
+path {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2;
+}
+
+.axis path, .axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+  stroke: grey;
+  stroke-width: 1;
+}

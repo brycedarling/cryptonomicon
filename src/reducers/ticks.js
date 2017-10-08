@@ -29,7 +29,7 @@ export const actions = {
 
     try {
       const { data } = await returnChartData(options);
-
+      
       dispatch(loadTicksSuccess(data));
     } catch (err) {
       dispatch(loadTicksFailure(err));
