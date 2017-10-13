@@ -91,7 +91,7 @@ class VolumeChart extends Component {
   }
 
   render() {
-    return <svg ref={svg => this.svg = svg } />
+    return <svg ref={svg => this.svg = svg} />
   }
 }
 
@@ -99,12 +99,26 @@ const mapStateToProps = (state) => ({
   ticks: state.ticks.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadTicks: () => actions.loadTicks({
-    currencyPair: 'USDT_BTC',
-    period: 86400,
-    start: 0,
-  })(dispatch)
-});
+function loadTicks() {
+  return (dispatch, getState) => {
+    const volumeChartUIState = getState().volumeChart.ui;
+
+    const options = {
+      currencyPair: volumeChartUIState.currencyPair,
+      period: volumeChartUIState.period,
+      start: volumeChartUIState.start,
+    };
+
+    if (volumeChartUIState.end) {
+      options.end = volumeChartUIState.end;
+    }
+
+    actions.loadTicks(options)(dispatch);
+  };
+}
+
+const mapDispatchToProps = {
+  loadTicks,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(VolumeChart);
