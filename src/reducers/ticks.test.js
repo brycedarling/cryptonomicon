@@ -2,8 +2,8 @@ import ticksReducer from './ticks';
 
 jest.mock('poloniex-js');
 
-describe('ticks', () => {
-  describe('reducer', () => {
+describe('reducers', () => {
+  describe('ticks', () => {
     describe('when action type is UNDEFINED', () => {
       it('returns the initial state with default data and ui values', () => {
         const expected = {
