@@ -41,7 +41,7 @@ class VolumeChart extends Component {
       .range([0, width]);
 
     const yScale = scaleLinear()
-      .domain([0, max(this.props.ticks, d => d.close)])
+      .domain([0, max(this.props.ticks, d => d.volume / 1000000)])
       .range([height, 0]);
 
     // Define the axes
@@ -49,13 +49,16 @@ class VolumeChart extends Component {
           yAxis = axisLeft(yScale);
 
     // Define the line
-    const valueline = line().x(d => xScale(d.date)).y(d => yScale(d.close));
+    const valueline = line()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.volume / 1000000));
 
     // Adds the svg canvas
     const svg = select(this.svg)
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom);
 
+    // Adds the margin group
     const marginG = svg//.select('g.margin')
       //.data([1])
       //.enter()
