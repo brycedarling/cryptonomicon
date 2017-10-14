@@ -4762,9 +4762,9 @@ pluralize@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-4.0.0.tgz#59b708c1c0190a2f692f1c7618c446b052fd1762"
 
-poloniex-js@brycedarling/poloniex-js:
+"poloniex-js@https://github.com/brycedarling/poloniex-js":
   version "0.1.0"
-  resolved "https://codeload.github.com/brycedarling/poloniex-js/tar.gz/d920ae6876c33cf8554f006f6ac7092eb94d4aaa"
+  resolved "https://github.com/brycedarling/poloniex-js#005bd9d21a6f38829ca9f822552a22d051dbf464"
   dependencies:
     axios "^0.16.2"
 
