@@ -75,7 +75,7 @@ class VolumeChart extends Component {
           .attr('class', 'line')
           .attr('d', valueline(this.props.ticks));
 
-    // Add the X-Axis
+    // Add the x-axis
     marginG//.select('g.x-axis')
       //.data([1])
       //.enter()
@@ -84,13 +84,30 @@ class VolumeChart extends Component {
           .attr('transform', `translate(0,${height})`)
           .call(xAxis);
 
-    // Add the Y-Axis
+    // Add the text label for the x-axis
+    marginG.append('text')
+        .attr('transform', `translate(${width / 2},${height + margin.bottom})`)
+        .style('text-anchor', 'middle')
+        .style('font-size', '11px')
+        .text('Date');
+
+    // Add the y-axis
     marginG//.select('g.y-axis')
       //.data([1])
       //.enter()
         .append('g')
           .attr('class', 'y-axis')
           .call(yAxis);
+
+    // Add the text label for the y-axis
+    marginG.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - margin.left)
+        .attr('x', 0 - (height / 2))
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .style('font-size', '11px')
+        .text('Volume');
   }
 
   render() {
