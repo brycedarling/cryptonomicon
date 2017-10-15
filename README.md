@@ -1,2 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+# cryptonomicon
+
+## Crypto Dashboard with React, Redux, and D3.js
+
+![Price and Volume charts](https://github.com/brycedarling/cryptonomicon/raw/master/public/images/screenshot.png)
 
