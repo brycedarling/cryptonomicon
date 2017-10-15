@@ -9,8 +9,8 @@ describe('reducers', () => {
           ui: {
             currencyPair: 'USDT_BTC',
             period: 86400,
-            start: 0,
-            end: null,
+            start: 1483246800, // Jan 01, 2017
+            end: 9999999999,
           },
         };
 

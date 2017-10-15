@@ -8,11 +8,11 @@ const period = (state = 86400, action) => {
   return state;
 };
 
-const start = (state = 0, action) => {
+const start = (state = new Date('01/01/2017').getTime() / 1000, action) => {
   return state;
 };
 
-const end = (state = null, action) => {
+const end = (state = 9999999999, action) => {
   return state;
 };
 
