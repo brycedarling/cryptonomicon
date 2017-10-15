@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { extent, max } from 'd3-array';
+import { extent } from 'd3-array';
 import { actions } from '../reducers';
 import Margin from './Margin';
 import Axis from './Axis';
@@ -40,7 +40,7 @@ class VolumeChart extends Component {
 
   get yScale() {
     return scaleLinear()
-      .domain([0, max(this.props.data, d => d.volume / 1000000)])
+      .domain(extent(this.props.data, d => d.volume / 1000000))
       .range([this.innerHeight, 0]);
   }
 
@@ -73,7 +73,7 @@ class VolumeChart extends Component {
             transform={`translate(0, ${innerHeight})`}
           />
           <Axis
-            label={{text: 'Volume', transform: `rotate(-90) translate(${-innerHeight / 2},${-margin.left+15})`}}
+            label={{text: 'Volume (in millions)', transform: `rotate(-90) translate(${-innerHeight / 2},${-margin.left+15})`}}
             className="y-axis"
             orientation="left"
             scale={yScale}
