@@ -10,7 +10,11 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <VolumeChart />
+        <VolumeChart
+          width={600}
+          height={270}
+          margin={{top: 30, right: 20, bottom: 30, left: 50,}}
+        />
       </Provider>
     );
   }
