@@ -4,11 +4,11 @@ const currencyPair = (state = 'USDT_BTC', action) => {
   return state;
 };
 
-const period = (state = 86400, action) => {
+const period = (state = 7200, action) => {
   return state;
 };
 
-const start = (state = new Date('01/01/2017').getTime() / 1000, action) => {
+const start = (state = new Date('09/01/2017').getTime() / 1000, action) => {
   return state;
 };
 
