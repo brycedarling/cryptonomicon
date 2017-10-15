@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { extent, max } from 'd3-array';
+import { extent, min, max } from 'd3-array';
 import Margin from './Margin';
 import Axis from './Axis';
 import Line from './Line';
@@ -35,7 +35,10 @@ class CandlestickChart extends Component {
 
   get yScale() {
     return scaleLinear()
-      .domain([0, max(this.props.data, d => d.close)])
+      .domain([
+        min(this.props.data, d => d.low),
+        max(this.props.data, d => d.high)
+      ])
       .range([this.innerHeight, 0]);
   }
 
