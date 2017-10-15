@@ -24,7 +24,7 @@ class Axis extends Component {
           .append('text')
             .attr('class', 'label')
             .style('text-anchor', 'middle')
-            .style('font-size', this.props.label.fontSize || '10px')
+            .style('font-size', this.props.label.fontSize || '11px')
             .style('fill', this.props.label.fill || '#000')
             .attr('transform', this.props.label.transform)
             .text(this.props.label.text || this.props.label)
