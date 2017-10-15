@@ -6,7 +6,6 @@ import { actions } from '../reducers';
 import Margin from './Margin';
 import Axis from './Axis';
 import Line from './Line';
-import './VolumeChart.css';
 
 class VolumeChart extends Component {
   componentWillMount() {

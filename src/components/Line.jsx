@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { line } from 'd3-shape';
-import './Line.css';
 
 class Line extends Component {
   get line() {
@@ -13,6 +12,12 @@ class Line extends Component {
     return (
       <path
         className="line"
+        style={{
+          fill: 'none',
+          shapeRendering: 'crispEdges',
+          stroke: this.props.stroke || 'steelblue',
+          strokeWidth: this.props.strokeWidth || 1,
+        }}
         d={this.line(this.props.data)}
       />
     );
