@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { extent } from 'd3-array';
-import { actions } from '../reducers';
 import Margin from './Margin';
 import Axis from './Axis';
 import Line from './Line';
@@ -21,8 +20,6 @@ class VolumeChart extends Component {
       top: PropTypes.number.isRequired,
     }).isRequired,
 
-    loadTicks: PropTypes.func.isRequired,
-
     data: PropTypes.arrayOf(PropTypes.shape({
       date: PropTypes.instanceOf(Date).isRequired,
       open: PropTypes.number.isRequired,
@@ -34,10 +31,6 @@ class VolumeChart extends Component {
       weightedAverage: PropTypes.number.isRequired,
     })).isRequired,
   };
-
-  componentWillMount() {
-    this.props.loadTicks();
-  }
 
   get outerWidth() {
     const { margin } = this.props;
@@ -117,26 +110,7 @@ const mapStateToProps = state => ({
   data: state.ticks.data,
 });
 
-function loadTicks() {
-  return (dispatch, getState) => {
-    const volumeChartUIState = getState().volumeChart.ui;
 
-    const options = {
-      currencyPair: volumeChartUIState.currencyPair,
-      period: volumeChartUIState.period,
-      start: volumeChartUIState.start,
-    };
-
-    if (volumeChartUIState.end) {
-      options.end = volumeChartUIState.end;
-    }
-
-    actions.loadTicks(options)(dispatch);
-  };
-}
-
-const mapDispatchToProps = {
-  loadTicks,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(VolumeChart);
