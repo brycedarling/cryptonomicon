@@ -1,4 +1,5 @@
-import ticksReducer from './ticks';
+import * as poloniexApi from 'poloniex-js';
+import ticksReducer, { actions } from './ticks';
 
 jest.mock('poloniex-js');
 
@@ -22,27 +23,29 @@ describe('reducers', () => {
 
     describe('when action type is LOAD_TICKS_START', () => {
       it('sets loading to true and error to null', () => {
-        const data = [
-          { open: 2, high: 4, low: 1, close: 3 }
-        ];
+        const data = [{
+          open: 2, high: 4, low: 1, close: 3,
+        }];
 
         const initialState = {
-          data: data,
+          data,
           ui: {
             error: 'hi mom',
             loading: false,
-          }
+          },
         };
 
         const expected = {
-          data: data,
+          data,
           ui: {
             error: null,
             loading: true,
-          }
+          },
         };
 
-        const actual = ticksReducer(initialState, { type: 'ticks/LOAD_TICKS_START' });
+        const actual = ticksReducer(initialState, {
+          type: 'ticks/LOAD_TICKS_START',
+        });
 
         expect(actual).toEqual(expected);
       });
@@ -55,22 +58,25 @@ describe('reducers', () => {
           ui: {
             error: 'hi mom',
             loading: true,
-          }
+          },
         };
 
-        const data = [
-          { open: 2, high: 4, low: 1, close: 3 }
-        ];
+        const data = [{
+          open: 2, high: 4, low: 1, close: 3,
+        }];
 
         const expected = {
-          data: data,
+          data,
           ui: {
             error: null,
             loading: false,
-          }
+          },
         };
 
-        const actual = ticksReducer(initialState, { type: 'ticks/LOAD_TICKS_SUCCESS', data, });
+        const actual = ticksReducer(initialState, {
+          type: 'ticks/LOAD_TICKS_SUCCESS',
+          data,
+        });
 
         expect(actual).toEqual(expected);
       });
@@ -78,29 +84,32 @@ describe('reducers', () => {
 
     describe('when action type is LOAD_TICKS_FAILURE', () => {
       it('sets error and loading to false', () => {
-        const data = [
-          { open: 2, high: 4, low: 1, close: 3 }
-        ];
+        const data = [{
+          open: 2, high: 4, low: 1, close: 3,
+        }];
 
         const initialState = {
-          data: data,
+          data,
           ui: {
             error: null,
             loading: true,
-          }
+          },
         };
 
         const err = 'network error';
 
         const expected = {
-          data: data,
+          data,
           ui: {
             error: err,
             loading: false,
-          }
+          },
         };
 
-        const actual = ticksReducer(initialState, { type: 'ticks/LOAD_TICKS_FAILURE', error: err, });
+        const actual = ticksReducer(initialState, {
+          type: 'ticks/LOAD_TICKS_FAILURE',
+          error: err,
+        });
 
         expect(actual).toEqual(expected);
       });
@@ -117,13 +126,13 @@ describe('reducers', () => {
     });
 
     describe('load ticks', () => {
-      const loadTicks = options => require('./ticks').actions.loadTicks(options);
+      const loadTicks = options => actions.loadTicks(options);
 
       describe('when successful', () => {
         const options = {
           currencyPair: 'USDT_BTC',
           period: 86400,
-          start: 0
+          start: 0,
         };
 
         const data = [{
@@ -137,26 +146,22 @@ describe('reducers', () => {
           weightedAverage: 239.62777823,
         }];
 
-        const poloniexApi = require('poloniex-js');
-
-        const spy = jest.spyOn(poloniexApi, 'returnChartData')
+        const spy = jest.spyOn(poloniexApi, 'returnChartData');
 
         beforeEach(() => {
-          spy.mockImplementationOnce(() => {
-            return Promise.resolve({ data });
-          });
+          spy.mockImplementationOnce(() => Promise.resolve({ data }));
         });
 
-        it('calls returnChartData with the given options', async() => {
+        it('calls returnChartData with the given options', async () => {
           await loadTicks(options)(dispatch);
 
           expect(spy).toBeCalledWith(options);
         });
 
-        it('dispatches start and success actions', async() => {
+        it('dispatches start and success actions', async () => {
           const expected = [
-            {'type': 'ticks/LOAD_TICKS_START'},
-            {'type': 'ticks/LOAD_TICKS_SUCCESS', data: data},
+            { type: 'ticks/LOAD_TICKS_START' },
+            { type: 'ticks/LOAD_TICKS_SUCCESS', data },
           ];
 
           await loadTicks(options)(dispatch);
@@ -169,27 +174,25 @@ describe('reducers', () => {
         const options = {
           currencyPair: 'USDT_BTC',
           period: 86400,
-          start: 0
+          start: 0,
         };
 
         const err = 'network error';
 
-        const poloniexApi = require('poloniex-js');
-
-        const spy = jest.spyOn(poloniexApi, 'returnChartData')
+        const spy = jest.spyOn(poloniexApi, 'returnChartData');
 
         beforeEach(() => spy.mockImplementationOnce(() => Promise.reject(err)));
 
-        it('calls returnChartData with the given options', async() => {
+        it('calls returnChartData with the given options', async () => {
           await loadTicks(options)(dispatch);
 
           expect(spy).toBeCalledWith(options);
         });
 
-        it('dispatches start and failure actions', async() => {
+        it('dispatches start and failure actions', async () => {
           const expected = [
-            {'type': 'ticks/LOAD_TICKS_START'},
-            {'type': 'ticks/LOAD_TICKS_FAILURE', error: err},
+            { type: 'ticks/LOAD_TICKS_START' },
+            { type: 'ticks/LOAD_TICKS_FAILURE', error: err },
           ];
 
           await loadTicks(options)(dispatch);

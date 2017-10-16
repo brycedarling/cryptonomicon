@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { extent } from 'd3-array';
@@ -8,27 +9,53 @@ import Axis from './Axis';
 import Line from './Line';
 
 class VolumeChart extends Component {
+  static propTypes = {
+    width: PropTypes.number.isRequired,
+
+    height: PropTypes.number.isRequired,
+
+    margin: PropTypes.shape({
+      bottom: PropTypes.number.isRequired,
+      left: PropTypes.number.isRequired,
+      right: PropTypes.number.isRequired,
+      top: PropTypes.number.isRequired,
+    }).isRequired,
+
+    loadTicks: PropTypes.func.isRequired,
+
+    data: PropTypes.arrayOf(PropTypes.shape({
+      date: PropTypes.instanceOf(Date).isRequired,
+      open: PropTypes.number.isRequired,
+      high: PropTypes.number.isRequired,
+      low: PropTypes.number.isRequired,
+      close: PropTypes.number.isRequired,
+      volume: PropTypes.number.isRequired,
+      quoteVolume: PropTypes.number.isRequired,
+      weightedAverage: PropTypes.number.isRequired,
+    })).isRequired,
+  };
+
   componentWillMount() {
     this.props.loadTicks();
   }
 
   get outerWidth() {
-    const margin = this.props.margin;
+    const { margin } = this.props;
     return this.props.width + margin.left + margin.right;
   }
 
   get outerHeight() {
-    const margin = this.props.margin;
+    const { margin } = this.props;
     return this.props.height + margin.top + margin.bottom;
   }
 
   get innerWidth() {
-    const margin = this.props.margin;
+    const { margin } = this.props;
     return this.props.width - margin.left - margin.right;
   }
 
   get innerHeight() {
-    const margin = this.props.margin;
+    const { margin } = this.props;
     return this.props.height - margin.top - margin.bottom;
   }
 
@@ -45,13 +72,10 @@ class VolumeChart extends Component {
   }
 
   render() {
-    const margin = this.props.margin,
-          outerWidth = this.outerWidth,
-          outerHeight = this.outerHeight,
-          innerWidth = this.innerWidth,
-          innerHeight = this.innerHeight,
-          xScale = this.xScale,
-          yScale = this.yScale;
+    const { margin } = this.props;
+    const {
+      outerWidth, outerHeight, innerWidth, innerHeight, xScale, yScale,
+    } = this;
 
     return (
       <svg
@@ -66,14 +90,14 @@ class VolumeChart extends Component {
           right={margin.right}
         >
           <Axis
-            label={{text: 'Date', transform: `translate(${innerWidth / 2}, ${margin.bottom+5})`}}
+            label={{ text: 'Date', transform: `translate(${innerWidth / 2}, ${margin.bottom + 5})` }}
             className="x-axis"
             orientation="bottom"
             scale={xScale}
             transform={`translate(0, ${innerHeight})`}
           />
           <Axis
-            label={{text: 'Volume (in millions)', transform: `rotate(-90) translate(${-innerHeight / 2},${-margin.left+15})`}}
+            label={{ text: 'Volume (in millions)', transform: `rotate(-90) translate(${-innerHeight / 2},${-margin.left + 15})` }}
             className="y-axis"
             orientation="left"
             scale={yScale}
@@ -89,7 +113,7 @@ class VolumeChart extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: state.ticks.data,
 });
 

@@ -1,16 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class Margin extends Component {
-  render() {
-    return (
-      <g
-        className="margin"
-        transform={`translate(${this.props.left}, ${this.props.top})`}
-      >
-        {this.props.children}
-      </g>
-    );
-  }
-}
+const Margin = props => (
+  <g
+    className="margin"
+    transform={`translate(${props.left}, ${props.top})`}
+  >
+    {props.children}
+  </g>
+);
+
+Margin.propTypes = {
+  left: PropTypes.number.isRequired,
+  top: PropTypes.number.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 
 export default Margin;

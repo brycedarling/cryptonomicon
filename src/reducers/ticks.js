@@ -15,7 +15,7 @@ const loadTicksStart = () => ({
 
 const loadTicksSuccess = data => ({
   type: LOAD_TICKS_SUCCESS,
-  data: data,
+  data,
 });
 
 const loadTicksFailure = err => ({
@@ -24,12 +24,12 @@ const loadTicksFailure = err => ({
 });
 
 export const actions = {
-  loadTicks: (options) => async(dispatch) => {
+  loadTicks: options => async (dispatch) => {
     dispatch(loadTicksStart());
 
     try {
       const { data } = await returnChartData(options);
-      
+
       dispatch(loadTicksSuccess(data));
     } catch (err) {
       dispatch(loadTicksFailure(err));

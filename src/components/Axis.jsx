@@ -1,36 +1,46 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { axisBottom, axisLeft, axisRight, axisTop } from 'd3-axis';
 // import { scaleLinear, scaleTime } from 'd3-scale';
 import { select } from 'd3-selection';
 import './Axis.css';
 
 class Axis extends Component {
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+
+      PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        transform: PropTypes.string,
+        fill: PropTypes.string,
+        fontSize: PropTypes.oneOfType([
+          PropTypes.number.isRequired,
+          PropTypes.string.isRequired,
+        ]),
+      }).isRequired,
+    ]).isRequired,
+
+    className: PropTypes.string,
+
+    orientation: PropTypes.string.isRequired,
+
+    scale: PropTypes.func.isRequired,
+
+    transform: PropTypes.string,
+  };
+
+  static defaultProps = {
+    className: '',
+    transform: '',
+  };
+
   componentDidMount() {
     this.renderAxis();
   }
 
   componentDidUpdate() {
     this.renderAxis();
-  }
-
-  renderAxis() {
-    const g = select(this.g)
-      .call(this.orientedAxis);
-
-    if (this.props.label) {
-      g.selectAll('text')
-        .data([this.props.label])
-        .enter()
-          .append('text')
-            .attr('class', 'label')
-            .style('text-anchor', 'middle')
-            .style('font-size', this.props.label.fontSize || '11px')
-            .style('fill', this.props.label.fill || '#000')
-            .attr('transform', this.props.label.transform)
-            .text(this.props.label.text || this.props.label)
-        .exit()
-          .remove();
-    }
   }
 
   get orientedAxis() {
@@ -94,12 +104,32 @@ class Axis extends Component {
   }
   */
 
+  renderAxis() {
+    const g = select(this.g)
+      .call(this.orientedAxis);
+
+    if (this.props.label) {
+      g.selectAll('text')
+        .data([this.props.label])
+        .enter()
+        .append('text')
+        .attr('class', 'label')
+        .style('text-anchor', 'middle')
+        .style('font-size', this.props.label.fontSize || '11px')
+        .style('fill', this.props.label.fill || '#000')
+        .attr('transform', this.props.label.transform)
+        .text(this.props.label.text || this.props.label)
+        .exit()
+        .remove();
+    }
+  }
+
   render() {
-  	return (
+    return (
       <g
         className={`axis ${this.props.className}`}
         transform={this.props.transform}
-        ref={g => this.g = g}
+        ref={(g) => { this.g = g; }}
       />
     );
   }

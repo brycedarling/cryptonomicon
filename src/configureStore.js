@@ -12,10 +12,10 @@ const configureStore = () => {
   ];
 
   if (process.env.NODE_ENV === 'development') {
-    const devToolsExtension = window.devToolsExtension;
+    const { __REDUX_DEVTOOLS_EXTENSION__ } = window;
 
     if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension());
+      enhancers.push(__REDUX_DEVTOOLS_EXTENSION__());
     }
   }
 
