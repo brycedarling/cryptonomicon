@@ -3,6 +3,7 @@ import { returnChartData } from 'poloniex-js';
 
 export const actionTypes = {
   LOAD_TICKS: 'ticks/LOAD_TICKS',
+  SET_CURRENCY_PAIR: 'ticks/SET_CURRENCY_PAIR',
 };
 
 const LOAD_TICKS_START = 'ticks/LOAD_TICKS_START';
@@ -24,16 +25,37 @@ const loadTicksFailure = err => ({
 });
 
 export const actions = {
-  loadTicks: options => async (dispatch) => {
+  loadTicks: async (dispatch, getState) => {
     dispatch(loadTicksStart());
 
     try {
+      const { ui } = getState().ticks;
+
+      const options = {
+        currencyPair: ui.currencyPair,
+        period: ui.period,
+        start: ui.start,
+      };
+
+      if (ui.end) {
+        options.end = ui.end;
+      }
+
       const { data } = await returnChartData(options);
 
       dispatch(loadTicksSuccess(data));
     } catch (err) {
       dispatch(loadTicksFailure(err));
     }
+  },
+
+  setCurrencyPair: currencyPair => (dispatch, getState) => {
+    dispatch({
+      type: actionTypes.SET_CURRENCY_PAIR,
+      currencyPair,
+    });
+
+    actions.loadTicks(dispatch, getState);
   },
 };
 
@@ -63,9 +85,28 @@ const error = (state = null, action) => {
   }
 };
 
+const currencyPair = (state = 'USDT_BTC', action) => {
+  switch (action.type) {
+    case actionTypes.SET_CURRENCY_PAIR:
+      return action.currencyPair;
+    default:
+      return state;
+  }
+};
+
+const period = (state = 7200) => state;
+
+const start = (state = new Date('09/01/2017').getTime() / 1000) => state;
+
+const end = (state = 9999999999) => state;
+
 const ui = combineReducers({
   loading,
   error,
+  currencyPair,
+  period,
+  start,
+  end,
 });
 
 const data = (state = [], action) => {

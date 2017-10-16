@@ -1,5 +1,5 @@
 import * as poloniexApi from 'poloniex-js';
-import ticksReducer, { actions } from './ticks';
+import ticksReducer, { actions, actionTypes } from './ticks';
 
 jest.mock('poloniex-js');
 
@@ -12,6 +12,10 @@ describe('reducers', () => {
           ui: {
             loading: false,
             error: null,
+            currencyPair: 'USDT_BTC',
+            period: 7200,
+            start: 1504238400, // Sep 01, 2017
+            end: 9999999999,
           },
         };
 
@@ -40,6 +44,10 @@ describe('reducers', () => {
           ui: {
             error: null,
             loading: true,
+            currencyPair: 'USDT_BTC',
+            period: 7200,
+            start: 1504238400, // Sep 01, 2017
+            end: 9999999999,
           },
         };
 
@@ -70,6 +78,10 @@ describe('reducers', () => {
           ui: {
             error: null,
             loading: false,
+            currencyPair: 'USDT_BTC',
+            period: 7200,
+            start: 1504238400, // Sep 01, 2017
+            end: 9999999999,
           },
         };
 
@@ -103,6 +115,10 @@ describe('reducers', () => {
           ui: {
             error: err,
             loading: false,
+            currencyPair: 'USDT_BTC',
+            period: 7200,
+            start: 1504238400, // Sep 01, 2017
+            end: 9999999999,
           },
         };
 
@@ -121,20 +137,33 @@ describe('reducers', () => {
 
     const dispatch = action => actual.push(action);
 
+    const getState = () => ({
+      ticks: {
+        data: [],
+        ui: {
+          loading: false,
+          error: null,
+          currencyPair: 'USDT_BTC',
+          period: 7200,
+          start: 1504238400,
+          end: 9999999999,
+        },
+      },
+    });
+
     beforeEach(() => {
       actual.length = 0;
     });
 
-    describe('load ticks', () => {
-      const loadTicks = options => actions.loadTicks(options);
+    describe('loadTicks', () => {
+      const options = {
+        currencyPair: 'USDT_BTC',
+        period: 7200,
+        start: 1504238400,
+        end: 9999999999,
+      };
 
       describe('when successful', () => {
-        const options = {
-          currencyPair: 'USDT_BTC',
-          period: 86400,
-          start: 0,
-        };
-
         const data = [{
           close: 244,
           date: 1424304000,
@@ -153,7 +182,7 @@ describe('reducers', () => {
         });
 
         it('calls returnChartData with the given options', async () => {
-          await loadTicks(options)(dispatch);
+          await actions.loadTicks(dispatch, getState);
 
           expect(spy).toBeCalledWith(options);
         });
@@ -164,19 +193,13 @@ describe('reducers', () => {
             { type: 'ticks/LOAD_TICKS_SUCCESS', data },
           ];
 
-          await loadTicks(options)(dispatch);
+          await actions.loadTicks(dispatch, getState);
 
           expect(actual).toEqual(expected);
         });
       });
 
       describe('when failure occurs', () => {
-        const options = {
-          currencyPair: 'USDT_BTC',
-          period: 86400,
-          start: 0,
-        };
-
         const err = 'network error';
 
         const spy = jest.spyOn(poloniexApi, 'returnChartData');
@@ -184,7 +207,7 @@ describe('reducers', () => {
         beforeEach(() => spy.mockImplementationOnce(() => Promise.reject(err)));
 
         it('calls returnChartData with the given options', async () => {
-          await loadTicks(options)(dispatch);
+          await actions.loadTicks(dispatch, getState);
 
           expect(spy).toBeCalledWith(options);
         });
@@ -195,10 +218,27 @@ describe('reducers', () => {
             { type: 'ticks/LOAD_TICKS_FAILURE', error: err },
           ];
 
-          await loadTicks(options)(dispatch);
+          await actions.loadTicks(dispatch, getState);
 
           expect(actual).toEqual(expected);
         });
+      });
+    });
+
+    describe('setCurrencyPair', () => {
+      it('returns a SET_CURRENCY_PAIR action', () => {
+        const currencyPair = 'USDT_ETH';
+
+        const expected = [{
+          type: actionTypes.SET_CURRENCY_PAIR,
+          currencyPair,
+        }, {
+          type: 'ticks/LOAD_TICKS_START',
+        }];
+
+        actions.setCurrencyPair(currencyPair)(dispatch, getState);
+
+        expect(actual).toEqual(expected);
       });
     });
   });
