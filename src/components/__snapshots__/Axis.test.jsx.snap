@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components Axis renders correctly 1`] = `
+<g
+  className="axis y-axis"
+  transform=""
+/>
+`;

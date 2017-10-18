@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components Margin renders correctly 1`] = `
+<g
+  className="margin"
+  transform="translate(20, 10)"
+>
+  hi mom
+</g>
+`;

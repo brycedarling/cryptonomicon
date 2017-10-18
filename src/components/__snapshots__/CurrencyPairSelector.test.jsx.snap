@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components CurrencyPairSelector renders correctly 1`] = `
+<div>
+  <button
+    className="selected"
+    onClick={[Function]}
+  >
+    BTC
+  </button>
+  <button
+    className=""
+    onClick={[Function]}
+  >
+    ETH
+  </button>
+  <button
+    className=""
+    onClick={[Function]}
+  >
+    LTC
+  </button>
+  <span>
+    
+  </span>
+</div>
+`;

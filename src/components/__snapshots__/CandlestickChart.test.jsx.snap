@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components CandlestickChart renders correctly 1`] = `
+<svg
+  className="candlestick-chart"
+  height={330}
+  width={670}
+>
+  <g
+    className="margin"
+    transform="translate(50, 30)"
+  >
+    <g
+      className="axis x-axis"
+      transform="translate(0, 210)"
+    />
+    <g
+      className="axis y-axis"
+      transform=""
+    />
+    <path
+      className="line"
+      d={null}
+      style={
+        Object {
+          "fill": "none",
+          "shapeRendering": "crispEdges",
+          "stroke": "steelblue",
+          "strokeWidth": 1,
+        }
+      }
+    />
+    <path
+      className="line"
+      d={null}
+      style={
+        Object {
+          "fill": "none",
+          "shapeRendering": "crispEdges",
+          "stroke": "green",
+          "strokeWidth": 1,
+        }
+      }
+    />
+    <path
+      className="line"
+      d={null}
+      style={
+        Object {
+          "fill": "none",
+          "shapeRendering": "crispEdges",
+          "stroke": "red",
+          "strokeWidth": 1,
+        }
+      }
+    />
+    <path
+      className="line"
+      d={null}
+      style={
+        Object {
+          "fill": "none",
+          "shapeRendering": "crispEdges",
+          "stroke": "yellow",
+          "strokeWidth": 1,
+        }
+      }
+    />
+  </g>
+</svg>
+`;

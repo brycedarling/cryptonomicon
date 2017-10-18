@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components Line renders correctly 1`] = `
+<path
+  className="line"
+  d="M1483246800000,1L1485925200000,2"
+  style={
+    Object {
+      "fill": "none",
+      "shapeRendering": "crispEdges",
+      "stroke": "steelblue",
+      "strokeWidth": 1,
+    }
+  }
+/>
+`;
